@@ -77,6 +77,10 @@ namespace Numc.lexer
                     return new Token(symbol, TokenType.OPERATOR_SINGLE_OR, lineNumber);
                 case "&":
                     return new Token(symbol, TokenType.OPERATOR_SINGLE_AND, lineNumber);
+                case "<":
+                    return new Token(symbol, TokenType.OPERATOR_LESS, lineNumber);
+                case ">":
+                    return new Token(symbol, TokenType.OPERATOR_MORE, lineNumber);
 
                 case "==":
                     return new Token(symbol, TokenType.OPERATOR_DOUBLE_EQUALS, lineNumber);

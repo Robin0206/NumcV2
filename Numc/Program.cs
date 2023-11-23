@@ -18,8 +18,14 @@ namespace Numc
             lines = wadder.removeSugar(lines);
             List<Token> tokens = lexer.tokenize(ref lines);
             WithRemover withRemover = new WithRemover();
-            tokens = withRemover.removeSugar(tokens);
-            
+            ForToWhileConverter forToWhileConverter = new ForToWhileConverter();
+            //tokens = withRemover.removeSugar(tokens);
+            //tokens = forToWhileConverter.removeSugar(tokens);
+            /*for(int i = 0; i < tokens.Count; i++)
+            {
+                tokens[i].print();
+                Console.WriteLine("Index: " + i);
+            }*/
             printTokens(tokens);
             Console.ReadLine();
         }

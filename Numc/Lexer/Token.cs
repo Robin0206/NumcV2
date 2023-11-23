@@ -54,6 +54,9 @@ namespace Numc.lexer
         OPERATOR_DOUBLE_OR,
         OPERATOR_DOUBLE_AND,
 
+        OPERATOR_LESS,
+        OPERATOR_MORE,
+
         SEMICOLON,
         COMMA,
 
