@@ -17,7 +17,6 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
             {
                 result.Add(token);
             }
-            int counter = 0;
             bool convertedForLoop = true;
             while (convertedForLoop)
             {
@@ -54,7 +53,6 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
                 {
                     convertedForLoop = false;
                 }
-                counter++;
             }
             return result;
             

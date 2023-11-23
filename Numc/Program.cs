@@ -19,7 +19,9 @@ namespace Numc
             List<Token> tokens = lexer.tokenize(ref lines);
             WithRemover withRemover = new WithRemover();
             ForToWhileConverter forToWhileConverter = new ForToWhileConverter();
+            DoToForConverter doToForConverter = new DoToForConverter();
             tokens = withRemover.removeSugar(tokens);
+            tokens = doToForConverter.removeSugar(tokens);
             tokens = forToWhileConverter.removeSugar(tokens);
             /*for(int i = 0; i < tokens.Count; i++)
             {

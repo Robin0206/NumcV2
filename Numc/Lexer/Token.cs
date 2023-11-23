@@ -29,7 +29,10 @@ namespace Numc.lexer
             this.line = line;
         }
 
-        
+        internal void setContent(string v)
+        {
+            this.content = v;
+        }
     }
     enum TokenType
     {

@@ -8,7 +8,7 @@ namespace Numc.SyntacticalSugar.Prelexer.Implementations
 {
     class WhitespaceAdder : PreLSSLayer
     {
-        static char[] symbols = "{}();%+-/*=|&!^,".ToCharArray();
+        static char[] symbols = "{}();%+-/*=<>|&!^,".ToCharArray();
         //Adds whitespace between operators, names, braces etc.... to make tokenization easier
         public string[] removeSugar(string[] input)
         {
