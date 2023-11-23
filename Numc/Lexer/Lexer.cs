@@ -18,7 +18,8 @@ namespace Numc.lexer
             "to",
             "int",
             "real",
-            "bool"
+            "bool",
+            "for"
         };
         public List<Token> tokenize(ref string[] input)
         {

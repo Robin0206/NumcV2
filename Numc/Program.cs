@@ -19,8 +19,8 @@ namespace Numc
             List<Token> tokens = lexer.tokenize(ref lines);
             WithRemover withRemover = new WithRemover();
             ForToWhileConverter forToWhileConverter = new ForToWhileConverter();
-            //tokens = withRemover.removeSugar(tokens);
-            //tokens = forToWhileConverter.removeSugar(tokens);
+            tokens = withRemover.removeSugar(tokens);
+            tokens = forToWhileConverter.removeSugar(tokens);
             /*for(int i = 0; i < tokens.Count; i++)
             {
                 tokens[i].print();
@@ -32,28 +32,46 @@ namespace Numc
 
         static void printTokens(List<Token> tokens) 
         {
-            int lastLine = 0;
             int tabLevel = 0;
-            foreach(Token t in tokens)
+            foreach(Token token in tokens)
             {
-                if (t.content == "}")
+                if(token.content == "{")
                 {
-                    tabLevel--;
-                }
-                if (t.line != lastLine)
-                {
-                    lastLine = t.line;
+                    tabLevel++;
+                    Console.Write(token.content);
                     Console.WriteLine();
                     for (int i = 0; i < tabLevel; i++)
                     {
                         Console.Write("    ");
                     }
                 }
-               
-                Console.Write(t.content + " ");
-                if(t.content == "{")
+                else if(token.content == "}")
                 {
-                    tabLevel++;
+                    tabLevel--;
+                    Console.WriteLine();
+                    for (int i = 0; i < tabLevel; i++)
+                    {
+                        Console.Write("    ");
+                    }
+                    Console.Write(token.content);
+                    Console.WriteLine();
+                    for (int i = 0; i < tabLevel; i++)
+                    {
+                        Console.Write("    ");
+                    }
+                }
+                else if(token.content == ";")
+                {
+                    Console.Write(token.content);
+                    Console.WriteLine();
+                    for (int i = 0; i < tabLevel; i++)
+                    {
+                        Console.Write("    ");
+                    }
+                }
+                else
+                {
+                    Console.Write(token.content + " ");
                 }
             }
         }

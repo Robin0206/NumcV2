@@ -19,7 +19,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
             }
             int counter = 0;
             bool convertedForLoop = true;
-            while (counter < 2)
+            while (convertedForLoop)
             {
                 int[] forCoords = findForCoords(ref result);
                 if(forCoords[0] != -1)
@@ -39,7 +39,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
                     resultBuffer.AddRange(whileBody);
 
                     //add after while
-                    for(int i = forCoords[1]; i <result.Count; i++)
+                    for(int i = forCoords[1]+1; i < result.Count; i++)
                     {
                         result[i].setLine(result[i].line + 2);
                         resultBuffer.Add(result[i]);
@@ -98,7 +98,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
                 }
             }
             //increment
-            result.Add(new Token(varName.content, TokenType.NAME, result[result.Count - 1].line + 1));
+            result.Add(new Token(varName.content, TokenType.NAME, result[result.Count - 1].line + 2));
             result.Add(new Token("=", TokenType.OPERATOR_SINGLE_EQUALS, result[result.Count - 1].line));
             result.Add(new Token(varName.content, TokenType.NAME, result[result.Count - 1].line));
             result.Add(new Token("+", TokenType.OPERATOR_PLUS, result[result.Count - 1].line));
@@ -106,7 +106,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
             result.Add(new Token(";", TokenType.SEMICOLON, result[result.Count - 1].line));
             result.Add(new Token("}", TokenType.CURLY_BRACE_RIGHT, result[result.Count - 1].line+1));
 
-            return currentForBody;
+            return result;
         }
 
         private List<Token> getForBody(int[] forCoords, ref List<Token> input)
@@ -129,7 +129,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
 
             for (int i = 0; i < input.Count; i++)
             {
-                if (input[i].content == "for")
+                if (input[i].content == "for" && !foundFor)
                 {
                     result[0] = i;
                     foundFor = true;

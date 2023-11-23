@@ -25,7 +25,7 @@ namespace Numc.SyntacticalSugar.Prelexer.Implementations
             //add semicolon to end of every line that doesnt contain a curly brace
             for(int i = firstCurlyBraceLine+1; i < input.Length; i++)
             {
-                if(!(input[i].Contains("}") || input[i].Contains("{")))
+                if(!(input[i].Contains("}") || input[i].Contains("{") || input[i].All( c => char.IsWhiteSpace(c))))
                 {
                     input[i] += ";";
                 }
