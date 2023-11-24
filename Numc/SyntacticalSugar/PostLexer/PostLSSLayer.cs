@@ -16,6 +16,7 @@ namespace Numc.SyntacticalSugar.PostLexer
         //2. do to for converter
         //3. fortowhileconverter
         //4. whiletoifconverter
+        //5. refaUpPuller
         List<Token> removeSugar(List<Token> input);
     }
 }
