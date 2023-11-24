@@ -51,6 +51,7 @@
     <Compile Include="Reader\Reader.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\DoToForConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\ForToWhileConverter.cs" />
+    <Compile Include="SyntacticalSugar\PostLexer\Implementations\WhileToIfConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\WithRemover.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\PostLSSLayer.cs" />
     <Compile Include="SyntacticalSugar\Prelexer\Implementations\SemicolonAdder.cs" />

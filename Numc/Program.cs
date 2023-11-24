@@ -20,9 +20,11 @@ namespace Numc
             WithRemover withRemover = new WithRemover();
             ForToWhileConverter forToWhileConverter = new ForToWhileConverter();
             DoToForConverter doToForConverter = new DoToForConverter();
+            WhileToIfConverter whileRemover = new WhileToIfConverter();
             tokens = withRemover.removeSugar(tokens);
             tokens = doToForConverter.removeSugar(tokens);
             tokens = forToWhileConverter.removeSugar(tokens);
+            tokens = whileRemover.removeSugar(tokens);
             /*for(int i = 0; i < tokens.Count; i++)
             {
                 tokens[i].print();

@@ -107,6 +107,13 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
             return result;
         }
 
+        private List<Token> convertWhileToIf(List<Token> input)
+        {
+            List<Token> result = new List<Token>();
+            return result;
+
+        }
+
         private List<Token> getForBody(int[] forCoords, ref List<Token> input)
         {
             List<Token> result = new List<Token>();
