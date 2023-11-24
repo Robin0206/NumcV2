@@ -51,6 +51,7 @@
     <Compile Include="Reader\Reader.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\DoToForConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\ForToWhileConverter.cs" />
+    <Compile Include="SyntacticalSugar\PostLexer\Implementations\IfRemover.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\RefaUpPuller.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\WhileToIfConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\WithRemover.cs" />

@@ -21,11 +21,13 @@ namespace Numc
             ForToWhileConverter forToWhileConverter = new ForToWhileConverter();
             DoToForConverter doToForConverter = new DoToForConverter();
             WhileToIfConverter whileRemover = new WhileToIfConverter();
+            IfRemover ifRemover = new IfRemover();
             RefaUpPuller refaUpPuller = new RefaUpPuller();
             tokens = withRemover.removeSugar(tokens);
             tokens = doToForConverter.removeSugar(tokens);
             tokens = forToWhileConverter.removeSugar(tokens);
             tokens = whileRemover.removeSugar(tokens);
+            tokens = ifRemover.removeSugar(tokens);
             tokens = refaUpPuller.removeSugar(tokens);
             /*for(int i = 0; i < tokens.Count; i++)
             {
