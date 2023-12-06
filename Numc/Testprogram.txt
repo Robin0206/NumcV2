@@ -1,12 +1,6 @@
-﻿define addSomeNumbers(int g, real h) with(
-	int(a,b,c),
-	real(d,e,f)
+﻿define fibonnaci(int n) with(
+	int(a,b,c,d,e)
 ){
-	if conditionOuter(){
-		bodyOuter()
-		if conditionInner(){
-			bodyInner()
-		}
-	}
-	return e
+	a = (b + c) * (d - x * 5) + (8 / 7)
+	return a
 }
