@@ -10,34 +10,18 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
     class ExpressionSimplifier : PostLSSLayer
     {
         static int bufferNum = 0;
+        List<Token> refaBuffer = new List<Token>();
         public List<Token> removeSugar(List<Token> input)
         {
-            List<Token> expression = extractExpression(findFirstInlinedExpression(ref input), input);
-            Console.WriteLine();
-            foreach(Token token in expression)
-            {
-                Console.Write(token.content + " ");
-            }
-            Console.WriteLine();
-            List<Token> simplified = simplify(expression);
-            Console.WriteLine();
-            foreach (Token token in simplified)
-            {
-                Console.Write(token.content + " ");
-                if(token.type == TokenType.SEMICOLON)
-                {
-                    Console.WriteLine();
-                }
-            }
-            Console.WriteLine();
-            /*
+       
             List<Token> result = new List<Token>();
             List<Token> resultBuffer = new List<Token>();
+            result.AddRange(input);
             
             while (true)
             {
                 
-                int[] coords = findFirstInlinedExpression(ref input);
+                int[] coords = findFirstInlinedExpression(ref result);
                 if(coords[0] == -1)
                 {
                     break;
@@ -49,33 +33,148 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
                 }
                 //add expression
                 List<Token> expression = extractExpression(coords, result);
-                List<Token> simplifiedExpressions = simplify(expression);
+                List<Token> simplifiedExpressions = simplify(expression, ref input);
                 resultBuffer.AddRange(simplifiedExpressions);
                 //add after expression
-                for(int i = 0; i < coords[1]; i++)
+                for(int i = coords[1]; i < input.Count; i++)
                 {
                     resultBuffer.Add(result[i]);
                 }
                 //copy
                 result.Clear();
                 result.AddRange(resultBuffer);
+                resultBuffer.Clear();
             }
             return result;
-            */
-            return input;
         }
 
-        private List<Token> simplify(List<Token> expression)
+        private List<Token> simplify(List<Token> expression, ref List<Token> input)
         {
+            List<Token> result = new List<Token>();
             List<Token> reversePolish = shuntingYard(expression);
-            Console.WriteLine(reversePolish.Count);
-            Console.WriteLine();
+            Stack<Token> stack = new Stack<Token>();
+            List<Token> expressionConversionResult = new List<Token>();
+
             foreach (Token token in reversePolish)
             {
-                Console.Write(token.content + " ");
+                if (isOperator(token))
+                {
+                    Token right = stack.Pop();
+                    Token left = stack.Pop();
+                    expressionConversionResult.Clear();
+                    expressionConversionResult.AddRange(constructExpression(left, right, token, ref input));
+                    result.AddRange(new List<Token>(expressionConversionResult));
+                    stack.Push(new Token(expressionConversionResult[9].content, expressionConversionResult[9].type, 0));
+                }
+                else
+                {
+                    stack.Push(token);
+                }
             }
-            Console.WriteLine();
-            return expression;
+            return result;
+        }
+
+        private List<Token> constructExpression(Token left, Token right, Token op, ref List<Token> input)
+        {
+            List<Token> result = new List<Token>();
+            string varName = "___expression_buffer_" + bufferNum;
+            bufferNum++;
+            int leftType = getPrimitiveType(left, ref input);
+            int rightType = getPrimitiveType(right, ref input);
+            int resultType = 0;
+            if (!opIsAlwaysReturningTrue(op))
+            {
+                resultType = Math.Max(leftType, rightType);
+            }
+            
+
+            //add Refa to result
+            result.Add(new Token("refa", TokenType.NAME, 0));
+            result.Add(new Token("(", TokenType.BRACE_LEFT, 0));
+            result.Add(new Token(varName, TokenType.NAME, 0));
+            result.Add(new Token(",", TokenType.COMMA, 0));
+            result.Add(new Token(resultType+"", TokenType.NUMBER, 0));
+            result.Add(new Token(",", TokenType.COMMA, 0));
+            result.Add(new Token("0", TokenType.NUMBER, 0));
+            result.Add(new Token(")", TokenType.BRACE_RIGHT, 0));
+            result.Add(new Token(";", TokenType.SEMICOLON, 0));
+            //Add Refa to refa buffer
+            refaBuffer.Add(new Token("refa", TokenType.NAME, 0));
+            refaBuffer.Add(new Token("(", TokenType.BRACE_LEFT, 0));
+            refaBuffer.Add(new Token(varName, TokenType.NAME, 0));
+            refaBuffer.Add(new Token(",", TokenType.COMMA, 0));
+            refaBuffer.Add(new Token(resultType + "", TokenType.NUMBER, 0));
+            refaBuffer.Add(new Token(",", TokenType.COMMA, 0));
+            refaBuffer.Add(new Token("0", TokenType.NUMBER, 0));
+            refaBuffer.Add(new Token(")", TokenType.BRACE_RIGHT, 0));
+            refaBuffer.Add(new Token(";", TokenType.SEMICOLON, 0));
+            //add statement
+            result.Add(new Token(varName, TokenType.NAME, 0));
+            result.Add(new Token("=", TokenType.OPERATOR_SINGLE_EQUALS, 0));
+            result.Add(left);
+            result.Add(op);
+            result.Add(right);
+            result.Add(new Token(";", TokenType.SEMICOLON, 0));
+
+            return result;
+        }
+
+        private bool opIsAlwaysReturningTrue(Token op)
+        {
+            return new TokenType[]
+            {
+                TokenType.OPERATOR_DOUBLE_EQUALS,
+                TokenType.OPERATOR_DOUBLE_OR,
+                TokenType.OPERATOR_DOUBLE_AND,
+                TokenType.OPERATOR_LESS,
+                TokenType.OPERATOR_MORE
+            }
+            .Contains(op.type);
+        }
+
+        private int getPrimitiveType(Token token, ref List<Token> input)
+        {
+            if(token.type == TokenType.NUMBER)
+            {
+                return token.content.Contains(".") ? 2 : 1;
+            }else if(token.type == TokenType.NAME && (token.content == "true" || token.content == "false"))
+            {
+                return 0;
+            }
+            else
+            {
+                return getTypeFromReferenceAllocation(token, ref input);
+            }
+        }
+
+        private int getTypeFromReferenceAllocation(Token varName, ref List<Token> input)
+        {
+            //search in input
+            for(int i = 0; i < input.Count; i++)
+            {
+                if(
+                    i + 4 < input.Count - 1 &&
+                    input[i].content == "refa" &&
+                    input[i + 2].content == varName.content
+                ){
+                    return int.Parse(input[i + 4].content);
+                }
+            }
+            //search in refa buffer
+            for (int i = 0; i < refaBuffer.Count; i++)
+            {
+                if (
+                    i + 4 < refaBuffer.Count - 1 &&
+                    refaBuffer[i].content == "refa" &&
+                    refaBuffer[i + 2].content == varName.content
+                )
+                {
+                    return int.Parse(refaBuffer[i + 4].content);
+                }
+            }
+
+            //throw exception if not found
+            throw new Exception("Exception: Variable " + varName.content + " not found");
         }
 
         private List<Token> shuntingYard(List<Token> expression)
@@ -107,11 +206,11 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
                 }
                 if (token.type == TokenType.BRACE_RIGHT)
                 {
-                    while(stack.Peek().type != TokenType.BRACE_LEFT)
+                    while(stack.Count != 0 && stack.Peek().type != TokenType.BRACE_LEFT)
                     {
                         result.Add(stack.Pop());
                     }
-                    if(stack.Peek().type != TokenType.BRACE_LEFT)
+                    if(stack.Count != 0 && stack.Peek().type != TokenType.BRACE_LEFT)
                     {
                         stack.Pop();
                     }
@@ -247,7 +346,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
             int counter = 0;
             foreach(Token token in line)
             {
-                if (isOperator(token))
+                if (isOperator(token) && token.type != TokenType.OPERATOR_SINGLE_EQUALS)
                 {
                     counter++;
                 }

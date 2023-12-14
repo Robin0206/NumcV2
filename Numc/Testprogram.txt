@@ -1,6 +1,11 @@
-﻿define fibonnaci(int n) with(
-	int(a,b,c,d,e)
+﻿define doSomething(int n) with(
+	int(a,b,c,d,e,f)
 ){
-	a = (b + c) * (d - x * 5) + (8 / 7)
+	if a - 5 > 7{
+		do 10 times{
+			b = b + 5
+			a = a + b
+		}
+	}
 	return a
 }

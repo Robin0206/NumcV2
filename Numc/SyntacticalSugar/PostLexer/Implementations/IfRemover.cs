@@ -38,7 +38,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
 
             //write condition set
             result.Add(new Token(conditionName, TokenType.NAME, 0));
-            result.Add(new Token("=", TokenType.SEMICOLON, 0));
+            result.Add(new Token("=", TokenType.OPERATOR_SINGLE_EQUALS, 0));
             result.AddRange(condition);
             result.Add(new Token(";", TokenType.SEMICOLON, 0));
 
