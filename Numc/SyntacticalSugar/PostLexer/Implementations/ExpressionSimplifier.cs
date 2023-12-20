@@ -77,7 +77,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
         private List<Token> constructExpression(Token left, Token right, Token op, ref List<Token> input)
         {
             List<Token> result = new List<Token>();
-            string varName = "___expression_buffer_" + bufferNum;
+            string varName = "____expression_buffer_" + bufferNum;
             bufferNum++;
             int leftType = getPrimitiveType(left, ref input);
             int rightType = getPrimitiveType(right, ref input);

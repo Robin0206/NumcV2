@@ -55,6 +55,7 @@
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\IfRemover.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\ExpressionSimplifier.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\RefaUpPuller.cs" />
+    <Compile Include="SyntacticalSugar\PostLexer\Implementations\ReturnConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\WhileToIfConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\WithRemover.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\PostLSSLayer.cs" />

@@ -1,11 +1,8 @@
-﻿define doSomething(int n) with(
-	int(a,b,c,d,e,f)
+﻿define addXToNYTimesIfNIsLessThanMax(int x, real y, int z, real n) with(
+	int(result)
 ){
-	if a - 5 > 7{
-		do 10 times{
-			b = b + 5
-			a = a + b
-		}
-	}
-	return a
+	
+	result = ((x * n) + (y - 8 * 7)) / (z * x + y)
+
+	return result
 }

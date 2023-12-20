@@ -22,16 +22,19 @@ namespace Numc
             DoToForConverter doToForConverter = new DoToForConverter();
             WhileToIfConverter whileRemover = new WhileToIfConverter();
             IfRemover ifRemover = new IfRemover();
+            ReturnConverter returnConverter = new ReturnConverter();
             ExpressionSimplifier expressionSimplifier = new ExpressionSimplifier();
+            ArgumentRemover argumentRemover = new ArgumentRemover();
             RefaUpPuller refaUpPuller = new RefaUpPuller();
             tokens = withRemover.removeSugar(tokens);
             tokens = doToForConverter.removeSugar(tokens);
             tokens = forToWhileConverter.removeSugar(tokens);
             tokens = whileRemover.removeSugar(tokens);
             tokens = ifRemover.removeSugar(tokens);
+            tokens = argumentRemover.removeSugar(tokens);
+            tokens = returnConverter.removeSugar(tokens);
             tokens = expressionSimplifier.removeSugar(tokens);
             tokens = refaUpPuller.removeSugar(tokens);
-            
             /*for(int i = 0; i < tokens.Count; i++)
             {
                 tokens[i].print();

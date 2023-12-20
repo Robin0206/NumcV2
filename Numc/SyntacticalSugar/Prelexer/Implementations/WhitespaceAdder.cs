@@ -28,7 +28,7 @@ namespace Numc.SyntacticalSugar.Prelexer.Implementations
             {
                 if(i != line.Length - 1)
                 {
-                    if(symbols.Contains(line[i]) && line[i] == line[i + 1])
+                    if(symbols.Contains(line[i]) && line[i] == line[i + 1] && !(line[i] == '(' || line[i] == ')' || line[i] == '{' || line[i] == '}'))
                     {
                         result.Append("  " + line[i] + line[i + 1] + "  ");
                         i++;
