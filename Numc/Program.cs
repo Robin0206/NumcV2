@@ -27,33 +27,47 @@ namespace Numc
             ArgumentRemover argumentRemover = new ArgumentRemover();
             RefaUpPuller refaUpPuller = new RefaUpPuller();
             ElseToIfConverter elseToIfConverter = new ElseToIfConverter();
+            InlineOperationRemover inlineOperationRemover = new InlineOperationRemover();
             tokens = withRemover.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
             tokens = doToForConverter.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
             tokens = forToWhileConverter.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
             tokens = whileRemover.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
             tokens = elseToIfConverter.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
             tokens = ifRemover.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
             tokens = argumentRemover.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
             tokens = returnConverter.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
+            tokens = inlineOperationRemover.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
             tokens = expressionSimplifier.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
             tokens = refaUpPuller.removeSugar(tokens);
             /*for(int i = 0; i < tokens.Count; i++)
             {
@@ -69,14 +83,19 @@ namespace Numc
 
         static void printTokens(List<Token> tokens) 
         {
+            int line = 0;
             int tabLevel = 0;
-            foreach(Token token in tokens)
+            Console.Write(line + " ");
+            line++;
+            foreach (Token token in tokens)
             {
                 if(token.content == "{")
                 {
                     tabLevel++;
                     Console.Write(token.content);
                     Console.WriteLine();
+                    Console.Write(line + " ");
+                    line++;
                     for (int i = 0; i < tabLevel; i++)
                     {
                         Console.Write("    ");
@@ -86,12 +105,16 @@ namespace Numc
                 {
                     tabLevel--;
                     Console.WriteLine();
+                    Console.Write(line + " ");
+                    line++;
                     for (int i = 0; i < tabLevel; i++)
                     {
                         Console.Write("    ");
                     }
                     Console.Write(token.content);
                     Console.WriteLine();
+                    Console.Write(line + " ");
+                    line++;
                     for (int i = 0; i < tabLevel; i++)
                     {
                         Console.Write("    ");
@@ -101,6 +124,8 @@ namespace Numc
                 {
                     Console.Write(token.content);
                     Console.WriteLine();
+                    Console.Write(line + " ");
+                    line++;
                     for (int i = 0; i < tabLevel; i++)
                     {
                         Console.Write("    ");
