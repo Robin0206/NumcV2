@@ -1,6 +1,8 @@
 ﻿define addXToNYTimesIfNIsLessThanMax(int x) with(
-	int(y)
+	int(y, result, resultOne)
 ){
 	y = 1
-	return x + y + 1
+	result = x + y + 1
+	resultOne = result
+	return result
 }
