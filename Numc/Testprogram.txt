@@ -1,8 +1,16 @@
 ﻿define addXToNYTimesIfNIsLessThanMax(int x, real y, int z, real n) with(
 	int(result)
 ){
-	
-	result = ((x * n) + (y - 8 * 7)) / (z * x + y)
-
-	return result
+	do 10 times{
+		result = result + 1
+		if result > 25{
+			return 25
+		}
+	}
+	if x > n{
+		result = y * z * (8 + 7 * n)
+	}else{
+		result = n * (z + 1) * (8 + 7 * n)
+	}
+	return result + 1
 }

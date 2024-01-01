@@ -26,14 +26,34 @@ namespace Numc
             ExpressionSimplifier expressionSimplifier = new ExpressionSimplifier();
             ArgumentRemover argumentRemover = new ArgumentRemover();
             RefaUpPuller refaUpPuller = new RefaUpPuller();
+            ElseToIfConverter elseToIfConverter = new ElseToIfConverter();
             tokens = withRemover.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
             tokens = doToForConverter.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
             tokens = forToWhileConverter.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
             tokens = whileRemover.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
+            tokens = elseToIfConverter.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
             tokens = ifRemover.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
             tokens = argumentRemover.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
             tokens = returnConverter.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
             tokens = expressionSimplifier.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
             tokens = refaUpPuller.removeSugar(tokens);
             /*for(int i = 0; i < tokens.Count; i++)
             {
@@ -42,6 +62,7 @@ namespace Numc
             }*/
             
             printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
             Console.ReadLine();
             
         }
