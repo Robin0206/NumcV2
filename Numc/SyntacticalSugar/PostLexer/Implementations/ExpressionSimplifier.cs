@@ -11,6 +11,8 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
     {
         static int bufferNum = 0;
         List<Token> refaBuffer = new List<Token>();
+        string lastBufferName = "";
+        string nameBeforeConversion = "";
         public List<Token> removeSugar(List<Token> input)
         {
        
@@ -38,7 +40,14 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
                 //add after expression
                 for(int i = coords[1]; i < input.Count; i++)
                 {
-                    resultBuffer.Add(result[i]);
+                    if(result[i].content != nameBeforeConversion)
+                    {
+                        resultBuffer.Add(result[i]);
+                    }
+                    else
+                    {
+                        resultBuffer.Add(new Token(lastBufferName, TokenType.NAME, 0));
+                    }
                 }
                 //copy
                 result.Clear();
@@ -50,6 +59,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
 
         private List<Token> simplify(List<Token> expression, ref List<Token> input)
         {
+            nameBeforeConversion = expression[0].content;
             List<Token> result = new List<Token>();
             List<Token> reversePolish = shuntingYard(expression);
             Stack<Token> stack = new Stack<Token>();
@@ -79,6 +89,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
             List<Token> result = new List<Token>();
             string varName = "____expression_buffer_" + bufferNum;
             bufferNum++;
+            lastBufferName = varName;
             int leftType = getPrimitiveType(left, ref input);
             int rightType = getPrimitiveType(right, ref input);
             int resultType = 0;
