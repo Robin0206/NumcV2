@@ -55,6 +55,7 @@
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\ForToWhileConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\FunctionCallRemover.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\HelperClasses\FunctionCallConverter.cs" />
+    <Compile Include="SyntacticalSugar\PostLexer\Implementations\HelperClasses\OperationLineConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\IfRemover.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\ExpressionSimplifier.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\InlineOperationRemover.cs" />

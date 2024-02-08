@@ -30,6 +30,8 @@ namespace Numc
             InlineOperationRemover inlineOperationRemover = new InlineOperationRemover();
             FunctionCallRemover functionCallConverter = new FunctionCallRemover();
             VariableAssignmentConverter variableAssignmentConverter = new VariableAssignmentConverter();
+            OperationConverter operationConverter = new OperationConverter();
+
             Console.WriteLine("---------------------------------------------------remove function calls");
             Console.WriteLine();
             tokens = functionCallConverter.removeSugar(tokens);
@@ -88,6 +90,10 @@ namespace Numc
             Console.WriteLine("---------------------------------------------------convert assignments to set calls");
             Console.WriteLine();
             tokens = variableAssignmentConverter.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------convert operations to functions");
+            Console.WriteLine();
+            tokens = operationConverter.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------pull refas up");
             Console.WriteLine();
