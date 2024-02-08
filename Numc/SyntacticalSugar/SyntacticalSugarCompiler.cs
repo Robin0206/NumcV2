@@ -35,6 +35,7 @@ namespace Numc.SyntacticalSugar
             new ReturnConverter(),
             new InlineOperationRemover(),
             new ExpressionSimplifier(),
+            new TrueAndFalseRemover(),
             new VariableAssignmentConverter(),
             new InlineNumberConverter(),
             new OperationConverter(),
@@ -42,13 +43,16 @@ namespace Numc.SyntacticalSugar
             new FunctionSignatureConverter(),
             new CommaAndBraceRemover(),
             new FunctionCallNameConverter()
+
         };
         public string[] compileProgram(string[] lines)
         {
             List<List<string>> splittedFunctions = splitFunctions(ref lines);
             foreach(List<string> function in splittedFunctions)
             {
-                functions.Add(compileFunction(function.ToArray()));
+                string[] compiledFunction = compileFunction(function.ToArray());
+                compiledFunction = substituteVarNames(compiledFunction);
+                functions.Add(compiledFunction);
             }
             List<string> functionList = new List<string>();
             foreach(string[] function in functions)
@@ -59,6 +63,36 @@ namespace Numc.SyntacticalSugar
                 }
             }
             return functionList.ToArray();
+        }
+
+        private string[] substituteVarNames(string[] input)
+        {
+            int varNameCounter = 0;
+            int labelCounter = 0;
+            List<string> resultBuffer = new List<string>();
+            resultBuffer.AddRange(input);
+            foreach(string line in input)
+            {
+                string[] splittedLine = line.Split(' ');
+                if(splittedLine[0] == "REFA")
+                {
+                    substituteVarName(ref resultBuffer, splittedLine[1], varNameCounter);
+                    varNameCounter++;
+                }else if(splittedLine[0] == "LABEL")
+                {
+                    substituteVarName(ref resultBuffer, splittedLine[1], labelCounter);
+                    labelCounter++;
+                }
+            }
+            return resultBuffer.ToArray();
+        }
+
+        private void substituteVarName(ref List<string> resultBuffer, string name, int counter)
+        {
+            for(int i = 0; i < resultBuffer.Count; i++)
+            {
+                resultBuffer[i] = resultBuffer[i].Replace(" " + name, " " + counter);
+            }
         }
 
         private List<List<string>> splitFunctions(ref string[] lines)
@@ -136,6 +170,7 @@ namespace Numc.SyntacticalSugar
                 new ReturnConverter(),
                 new InlineOperationRemover(),
                 new ExpressionSimplifier(),
+                new TrueAndFalseRemover(),
                 new VariableAssignmentConverter(),
                 new InlineNumberConverter(),
                 new OperationConverter(),
