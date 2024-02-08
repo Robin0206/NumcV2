@@ -60,6 +60,7 @@
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\InlineOperationRemover.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\RefaUpPuller.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\ReturnConverter.cs" />
+    <Compile Include="SyntacticalSugar\PostLexer\Implementations\VariableAssignmentConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\WhileToIfConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\WithRemover.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\PostLSSLayer.cs" />

@@ -18,6 +18,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
        
             List<Token> result = new List<Token>();
             List<Token> resultBuffer = new List<Token>();
+            List<Token> debugBuffer = new List<Token>();
             result.AddRange(input);
             
             while (true)
@@ -38,7 +39,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
                 List<Token> simplifiedExpressions = simplify(expression, ref input);
                 resultBuffer.AddRange(simplifiedExpressions);
                 //add after expression
-                for(int i = coords[1]; i < input.Count; i++)
+                for(int i = coords[1]; i < result.Count; i++)
                 {
                     if(result[i].content != nameBeforeConversion)
                     {
@@ -50,6 +51,8 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
                     }
                 }
                 //copy
+                debugBuffer.Clear();
+                debugBuffer.AddRange(resultBuffer);
                 result.Clear();
                 result.AddRange(resultBuffer);
                 resultBuffer.Clear();
