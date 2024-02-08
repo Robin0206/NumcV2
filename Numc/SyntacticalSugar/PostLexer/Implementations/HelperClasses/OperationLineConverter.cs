@@ -52,7 +52,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations.HelperClasses
                  case TokenType.OPERATOR_SINGLE_AND:
                     return new Token("binAnd", TokenType.NAME, 0);
                  case TokenType.OPERATOR_DOUBLE_EQUALS:
-                    return new Token("", TokenType.NAME, 0);
+                    return new Token("logEq", TokenType.NAME, 0);
                  case TokenType.OPERATOR_DOUBLE_OR:
                     return new Token("logOr", TokenType.NAME, 0);
                  case TokenType.OPERATOR_DOUBLE_AND:
