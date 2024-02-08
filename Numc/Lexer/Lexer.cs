@@ -11,7 +11,7 @@ namespace Numc.lexer
             "for", 
             "if", 
             "while", 
-            "define", 
+            "func", 
             "with", 
             "return",
             "from",

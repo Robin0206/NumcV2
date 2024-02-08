@@ -1,12 +1,23 @@
-﻿define addXToNYTimesIfNIsLessThanMax(int x) with(
-	int(y, result, resultOne)
+﻿func primeSieve(int n, bool marked) with(
+	int(p, result),
+	bool(buffer)
 ){
-	y = 1
-	result = x + y + 1
-	resultOne = result
-	if y < x{
-		x = x - 1
+	p = 2
+	while p * p < n{
+		for i from p * p to n{
+			setArr(marked, true)
+		}
+		buffer = arrGet(marked, p)
+		while p * p < n && buffer{
+			p = p + 1
+		}
 	}
-	doSomething(result, y)
+	result = 0
+	for i from 2 to n{
+		buffer = arrGet(marked, p)
+		if buffer == false{
+			result = result + 1
+		}
+	}
 	return result
 }

@@ -1,4 +1,5 @@
 ﻿using Numc.lexer;
+using Numc.SyntacticalSugar.PostLexer.Implementations.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Numc.SyntacticalSugar.PostLexer.Implementations
 {
-    class FunctionCallConverter : PostLSSLayer
+    class FunctionCallRemover : PostLSSLayer
     {
+        FunctionCallConverter functionCallConverter = new FunctionCallConverter();
         public List<Token> removeSugar(List<Token> input)
         {
             List<List<Token>> lines = convertToLines(ref input);
-            //debug
-            int index = findFunctionLineIndex(ref lines);
-            Console.WriteLine("Index found was: " + index);
-            //debug
-            convertFunction(ref lines);
+            while(findFunctionLineIndex(ref lines) != -1)
+            {
+                convertFunction(ref lines);
+            }
             List<Token> result = convertLinesToTokenList(ref lines);
             return result;
         }
@@ -56,7 +57,7 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
             
             List<List<Token>> functionBuffer = new List<List<Token>>();
             int functionLineIndex = findFunctionLineIndex(ref lines);
-            List<List<Token>> convertedFunction = convertFunctionLine(lines[functionLineIndex]);
+            List<List<Token>> convertedFunction = functionCallConverter.convertFunctionLine(lines[functionLineIndex]);
             for(int i = 0; i < lines.Count; i++)
             {
                 if(i != functionLineIndex)
@@ -83,10 +84,14 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
             for(int i = 0; i < lines.Count; i++)
             {
                 if(
-                    !containsToken("define", lines[i]) && 
+                    !containsToken("func", lines[i]) && 
                     containsToken("(", lines[i]) && 
-                    containsToken(")", lines[i])
-                ){
+                    containsToken(")", lines[i]) && 
+                    !containsToken("call", lines[i]) &&
+                    !containsToken("parg", lines[i]) &&
+                    !containsToken("retG", lines[i])
+                )
+                {
                     return i;
                 }
             }
@@ -95,44 +100,14 @@ namespace Numc.SyntacticalSugar.PostLexer.Implementations
 
         private bool containsToken(string tokenContent, List<Token> line)
         {
-            foreach(Token token in line)
+            foreach (Token token in line)
             {
-                if(token.content == tokenContent)
+                if (token.content == tokenContent)
                 {
                     return true;
                 }
             }
             return false;
-        }
-        private List<List<Token>> convertFunctionLine(List<Token> tokens)
-        {
-
-            if(containsToken("=", tokens))
-            {
-                return convertFunctionLineWithEquals(tokens);
-            }
-            else { 
-                return convertFunctionLineWithoutEquals(tokens);
-            }
-            return new List<List<Token>>();
-        }
-
-        private List<List<Token>> convertFunctionLineWithoutEquals(List<Token> line)
-        {
-            List<string> argumentNames = getArgumentNames(ref line);
-            return new List<List<Token>>();
-        }
-
-        private List<List<Token>> convertFunctionLineWithEquals(List<Token> line)
-        {
-            return new List<List<Token>>();
-        }
-
-        private List<string> getArgumentNames(ref List<Token> lines)
-        {
-            //remove function name
-
-            return new List<string>();
         }
     }
 }
