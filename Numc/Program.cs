@@ -13,16 +13,10 @@ namespace Numc
         {
             string[] lines = Reader.Reader.readLinesRaw("../../Testprogram.txt");
             SyntacticalSugarCompiler compiler = new SyntacticalSugarCompiler();
-            string[] compiled = compiler.compileFunction(lines);
-            Console.WriteLine("=========================Original=========================");
-            foreach (string line in lines)
+            string[] compiled = compiler.compileProgram(lines);
+            foreach(string i in compiled)
             {
-                Console.WriteLine(line);
-            }
-            Console.WriteLine("=========================Compiled=========================");
-            foreach (string line in compiled)
-            {
-                Console.WriteLine(line);
+                Console.WriteLine(i);
             }
             Console.ReadLine();
         }

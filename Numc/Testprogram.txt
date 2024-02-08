@@ -1,23 +1,27 @@
-﻿func primeSieve(int n, bool marked) with(
-	int(p, result),
-	bool(buffer)
+﻿func fibonnacci(int n) with(
+	int(a, b, c)
 ){
-	p = 2
-	while p * p < n{
-		for i from p * p to n{
-			setArr(marked, true)
-		}
-		buffer = arrGet(marked, p)
-		while p * p < n && buffer{
-			p = p + 1
-		}
+	a = 0
+	b = 1
+	while n - 2 > 0{
+		c = a + b
+		a = b
+		b = c
+		n = n - 1
 	}
-	result = 0
-	for i from 2 to n{
-		buffer = arrGet(marked, p)
-		if buffer == false{
-			result = result + 1
-		}
-	}
+	return c
+}
+
+func doSomething() with(
+	int(result, n)
+){
+	n = 10
+	result = fibonnacci(n)
 	return result
+}
+
+func main() with(
+	int(fib)
+){
+	fib = doSomething()
 }
