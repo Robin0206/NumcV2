@@ -58,6 +58,7 @@
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\HelperClasses\OperationLineConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\IfRemover.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\ExpressionSimplifier.cs" />
+    <Compile Include="SyntacticalSugar\PostLexer\Implementations\InlineNumberConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\InlineOperationRemover.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\OperationConverter.cs" />
     <Compile Include="SyntacticalSugar\PostLexer\Implementations\RefaUpPuller.cs" />
