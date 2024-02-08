@@ -28,6 +28,13 @@ namespace Numc
             RefaUpPuller refaUpPuller = new RefaUpPuller();
             ElseToIfConverter elseToIfConverter = new ElseToIfConverter();
             InlineOperationRemover inlineOperationRemover = new InlineOperationRemover();
+            FunctionCallConverter functionCallConverter = new FunctionCallConverter();
+            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
+            tokens = functionCallConverter.removeSugar(tokens);
+            printTokens(tokens);
+            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine();
             tokens = withRemover.removeSugar(tokens);
             printTokens(tokens);
             Console.WriteLine("---------------------------------------------------");
