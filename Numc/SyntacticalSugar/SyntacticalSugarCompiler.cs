@@ -42,57 +42,27 @@ namespace Numc.SyntacticalSugar
             new RefaUpPuller(),
             new FunctionSignatureConverter(),
             new CommaAndBraceRemover(),
-            new FunctionCallNameConverter()
+            new FunctionCallNameConverter(),
+            new VariableNameConverter()
 
         };
         public string[] compileProgram(string[] lines)
         {
             List<List<string>> splittedFunctions = splitFunctions(ref lines);
-            foreach(List<string> function in splittedFunctions)
+            foreach (List<string> function in splittedFunctions)
             {
                 string[] compiledFunction = compileFunction(function.ToArray());
-                compiledFunction = substituteVarNames(compiledFunction);
                 functions.Add(compiledFunction);
             }
             List<string> functionList = new List<string>();
-            foreach(string[] function in functions)
+            foreach (string[] function in functions)
             {
-                foreach(string line in function)
+                foreach (string line in function)
                 {
                     functionList.Add(line);
                 }
             }
             return functionList.ToArray();
-        }
-
-        private string[] substituteVarNames(string[] input)
-        {
-            int varNameCounter = 0;
-            int labelCounter = 0;
-            List<string> resultBuffer = new List<string>();
-            resultBuffer.AddRange(input);
-            foreach(string line in input)
-            {
-                string[] splittedLine = line.Split(' ');
-                if(splittedLine[0] == "REFA")
-                {
-                    substituteVarName(ref resultBuffer, splittedLine[1], varNameCounter);
-                    varNameCounter++;
-                }else if(splittedLine[0] == "LABEL")
-                {
-                    substituteVarName(ref resultBuffer, splittedLine[1], labelCounter);
-                    labelCounter++;
-                }
-            }
-            return resultBuffer.ToArray();
-        }
-
-        private void substituteVarName(ref List<string> resultBuffer, string name, int counter)
-        {
-            for(int i = 0; i < resultBuffer.Count; i++)
-            {
-                resultBuffer[i] = resultBuffer[i].Replace(" " + name, " " + counter);
-            }
         }
 
         private List<List<string>> splitFunctions(ref string[] lines)
@@ -177,7 +147,8 @@ namespace Numc.SyntacticalSugar
                 new RefaUpPuller(),
                 new FunctionSignatureConverter(),
                 new CommaAndBraceRemover(),
-                new FunctionCallNameConverter()
+                new FunctionCallNameConverter(),
+                new VariableNameConverter()
             };
             preLexerConversionChain = new PreLSSLayer[]
             {
